@@ -1,0 +1,50 @@
+name: Kiva Model CI/CD
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'  # UPDATED: Matches your new nlp_env
+
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+          python -m spacy download en_core_web_sm  # NEW: Needed for unit tests to pass
+
+      - name: Run Unit Tests
+        run: pytest tests/ 
+
+      - name: Build and Push Container
+        run: |
+          gcloud auth configure-docker
+          # Ensure your Dockerfile also has the 'RUN python -m spacy download' line!
+          docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/kiva-predictor .
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/kiva-predictor
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy kiva-service \
+            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/kiva-predictor \
+            --platform managed \
+            --region us-central1 \
+            --allow-unauthenticated \
+            --memory 2Gi \  # UPDATED: Minimum 2Gi for spaCy; 4Gi if using Transformers
+            --cpu 1        # UPDATED: Matches 2Gi memory requirements
+
+      - name: Generate Reports
+        run: python src/report.py 
+
+      - name: Upload Plotting Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: kiva-eda-reports
+          path: reports/

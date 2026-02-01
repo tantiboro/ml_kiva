@@ -1,0 +1,11 @@
+nlp_venv/
+.venv/
+__pycache__/
+*.pyc
+data/
+models/
+wheels/
+.git/
+.github/
+tests/
+*.ipynb

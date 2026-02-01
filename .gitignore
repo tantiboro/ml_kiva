@@ -1,0 +1,13 @@
+# venvs
+nlp_venv/
+.venv/
+venv/
+__pycache__/
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.DS_Store
+# Add these to your .gitignore
+data/processed/processed_loans_balanced.csv
+models/kiva_pipeline.joblibdata/
+models/kiva_pipeline.joblib
