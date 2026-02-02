@@ -1,18 +1,13 @@
 name: ML Pipeline CI
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+on: [push]
 
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
-
+    
     - name: Set up Python 3.10
       uses: actions/setup-python@v5
       with:
@@ -22,12 +17,12 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install -e .
-        # Pre-download the spaCy model for the environment
+        # Installs your project so 'import ml_kiva' works
+        pip install -e . 
+        # Crucial for your preprocess.py logic
         python -m spacy download en_core_web_sm
 
     - name: Run Pytest
       run: |
-        # We skip the model inference test if the large joblib file is missing 
-        # (Since we aren't pushing the 331MB model to GitHub)
+        # Point specifically to the tests folder
         pytest tests/
