@@ -53,7 +53,11 @@ def get_preprocessor(text_col, num_cols, cat_cols):
     """Returns the ColumnTransformer for the pipeline."""
     return ColumnTransformer(
         [
-            ("text", TfidfVectorizer(max_features=2000, stop_words="english"), text_col),
+            (
+                "text",
+                TfidfVectorizer(max_features=2000, stop_words="english"),
+                text_col,
+            ),
             ("num", StandardScaler(), num_cols),
             ("cat", OneHotEncoder(handle_unknown="ignore"), cat_cols),
         ]

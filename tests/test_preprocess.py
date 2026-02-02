@@ -5,7 +5,7 @@ from ml_kiva.preprocess import clean_text
 
 def test_html_removal():
     input_text = "Loan for <b>running</b> a farm.<br/>"
-    expected = "loan run farm" # 'run' is the lemma of 'running'
+    expected = "loan run farm"  # 'run' is the lemma of 'running'
     assert clean_text(input_text) == expected
 
 

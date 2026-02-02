@@ -31,20 +31,22 @@ jobs:
           set -euxo pipefail
           python -m pip install --upgrade pip
 
-          # IMPORTANT: use python -m pip (not pip)
+          # 1. Explicitly install testing tools (missing from requirements.txt)
+          python -m pip install pytest pytest-mock
+
+          # 2. Install your standard app requirements
           python -m pip install -r requirements.txt
 
-          # PROOF: show pytest is installed in THIS interpreter environment
+          # 3. PROOF: This will now show the package info correctly
           python -m pip show pytest
           python -c "import pytest; print('pytest ok:', pytest.__version__)"
 
-          # Install your package if you need import ml_kiva
+          # 4. Install the project in editable mode
           python -m pip install -e .
 
-          # spaCy model (wheel is more reliable than `spacy download` in CI)
+          # 5. spaCy model via wheel (excellent choice for stability)
           python -m pip install \
             https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl
-
       - name: Run Pytest
         run: |
           set -euxo pipefail

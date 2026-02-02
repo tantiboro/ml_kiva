@@ -22,6 +22,7 @@ print(f"DEBUG: File exists? {DATA_PATH.exists()}")
 if not DATA_PATH.exists():
     raise FileNotFoundError(f"❌ File not found at: {DATA_PATH.absolute()}")
 
+
 def run_training():
     # 1. Prepare Data
     X, y = load_and_clean_data(DATA_PATH)
