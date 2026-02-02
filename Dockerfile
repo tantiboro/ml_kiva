@@ -1,35 +1,35 @@
-# Use a modern, slim Python base
-FROM python:3.11-slim
+# 1. Use a slim Python image to keep the footprint small
+FROM python:3.10-slim
 
-ENV PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1 \
-    PIP_NO_CACHE_DIR=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1
-
+# 2. Set working directory
 WORKDIR /app
 
-# System deps for scientific Python wheels and some text libs
-RUN apt-get update && apt-get install -y --no-install-recommends \
+# 3. Install system dependencies for spaCy and Scikit-Learn
+RUN apt-get update && apt-get install -y \
     build-essential \
+    curl \
+    software-properties-common \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python dependencies first (better layer caching)
+# 4. Copy requirements first to leverage Docker cache
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Pin spaCy model for reproducibility (recommended)
-RUN pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl
+# 5. Download the specific spaCy model used in your preprocessing
+RUN python -m spacy download en_core_web_sm
 
-# Copy the rest of the app
-COPY . .
+# 6. Copy the modular project structure
+# We only copy what's needed for the app to run
+COPY src/ ./src/
+COPY models/ ./models/
+COPY app.py .
+COPY pyproject.toml .
 
-# Cloud Run listens on 8080
+# 7. Install the project in editable mode to link the src package
+RUN pip install -e .
+
+# 8. Expose the Streamlit port (Default 8501)
 EXPOSE 8080
 
-# Streamlit settings commonly needed behind Cloud Run proxy
-ENV STREAMLIT_SERVER_PORT=8080 \
-    STREAMLIT_SERVER_ADDRESS=0.0.0.0 \
-    STREAMLIT_SERVER_ENABLECORS=false \
-    STREAMLIT_SERVER_ENABLEXSRFPROTECTION=false
-
-CMD ["streamlit", "run", "app.py"]
+# 9. Configure Streamlit for Cloud Run (Headless and Port mapping)
+ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=8080", "--server.address=0.0.0.0"]

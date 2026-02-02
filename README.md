@@ -21,6 +21,13 @@ DevOps: * CI: GitHub Actions for unit testing (pytest) and automated EDA report 
 
 CD: Automated containerization (Docker) and deployment to GCP Cloud Run (2Gi RAM optimized).
 
+## 📂 Data Availability
+
+To maintain a lean repository, the primary dataset and the trained model artifact are not stored directly in this GitHub repository due to file size limits (>100MB). 
+
+* **Balanced Dataset**: The 184,822-row processed dataset (`processed_loans_balanced.csv`) is available upon request or can be recreated by running the preprocessing scripts locally.
+* **Pre-trained Model**: The `kiva_pipeline.joblib` artifact (331MB) is generated during the local training phase.
+* **Source Data**: Original Kiva dataset (3M+ rows) can be sourced from the [Kiva Data Commons](https://www.kiva.org/build/data-snapshots).
 📂 Project Structure
 Plaintext
 
@@ -81,3 +88,11 @@ Automated EDA: Real-time visualization of loan status distributions and sector t
 
 Final Next Step
 Would you like me to show you how to add a "Model Versioning" tag to your train.py so that your app.py can display the exact date the model was last trained?
+
+## 🔮 Future Improvements
+While the current model achieves a **0.91 Recall** for at-risk loans, several paths for scaling exist:
+
+* **Database Integration**: Migrate from local `.csv` files to a **PostgreSQL** or **BigQuery** backend to handle real-time data ingestion from the Kiva API.
+* **Deep Learning (BERT/Transformers)**: Experiment with **HuggingFace Transformers** to capture deeper semantic nuances in borrower stories beyond TF-IDF lemmatization.
+* **Deployment Scaling**: Transition from a single **Cloud Run** instance to a managed **Kubernetes (GKE)** cluster for high-concurrency inference.
+* **A/B Testing**: Implement a shadow deployment strategy to compare model predictions against actual funding outcomes in real-time.
