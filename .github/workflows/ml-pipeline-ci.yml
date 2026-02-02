@@ -16,31 +16,37 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Debug (confirm files + interpreter)
+      - name: Debug context
         run: |
+          set -euxo pipefail
           pwd
           ls -la
           python -V
           which python
           python -m pip -V
-          test -f requirements.txt && echo "requirements.txt found" || (echo "requirements.txt NOT found" && exit 1)
+          test -f requirements.txt
 
       - name: Install dependencies
         run: |
+          set -euxo pipefail
           python -m pip install --upgrade pip
+
+          # IMPORTANT: use python -m pip (not pip)
           python -m pip install -r requirements.txt
 
-          # install your package (optional but ok)
+          # PROOF: show pytest is installed in THIS interpreter environment
+          python -m pip show pytest
+          python -c "import pytest; print('pytest ok:', pytest.__version__)"
+
+          # Install your package if you need import ml_kiva
           python -m pip install -e .
 
-          # spaCy model (use wheel to avoid spacy download 404 issue)
-          python -m pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl
-
-      - name: Verify pytest is installed (must pass)
-        run: |
-          python -c "import pytest; print('pytest version:', pytest.__version__)"
+          # spaCy model (wheel is more reliable than `spacy download` in CI)
+          python -m pip install \
+            https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl
 
       - name: Run Pytest
         run: |
+          set -euxo pipefail
           python -m pytest tests/ -v
 
