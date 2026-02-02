@@ -1,6 +1,8 @@
 name: ML Pipeline CI
 
-on: [push]
+on:
+  push:
+    branches: [ "main" ]
 
 jobs:
   test:
@@ -17,12 +19,12 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        # Installs your project so 'import ml_kiva' works
+        # Installs the ml_kiva package so the runner can 'import' it
         pip install -e . 
-        # Crucial for your preprocess.py logic
+        # Downloads the linguistic weights needed for lemmatization
         python -m spacy download en_core_web_sm
 
     - name: Run Pytest
       run: |
-        # Point specifically to the tests folder
-        pytest tests/
+        # Using 'python -m' adds the current directory to the path automatically
+        python -m pytest tests/
