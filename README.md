@@ -1,6 +1,6 @@
 Kiva Loan Funding Predictor
 Author: Tantiboro "Tanti" Ouattara
-
+![ML Pipeline CI](https://github.com/tantiboro/ml_kiva/actions/workflows/ml-pipeline-ci.yml/badge.svg)
 Stack: Python, spaCy NLP, Scikit-Learn, Streamlit, Docker, GCP Cloud Run
 
 📌 Project Overview
