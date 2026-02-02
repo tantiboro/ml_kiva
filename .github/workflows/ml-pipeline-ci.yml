@@ -19,12 +19,12 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        # Installs the ml_kiva package so the runner can 'import' it
+        # Installs your project as a package so 'import ml_kiva' works
         pip install -e . 
-        # Downloads the linguistic weights needed for lemmatization
+        # Explicitly download the spaCy model weights
         python -m spacy download en_core_web_sm
 
     - name: Run Pytest
       run: |
-        # Using 'python -m' adds the current directory to the path automatically
+        # Using 'python -m' ensures the runner finds your local code
         python -m pytest tests/
