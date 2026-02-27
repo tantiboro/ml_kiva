@@ -1,7 +1,7 @@
 # --- Core Data Science ---
-numpy==1.26.4
-pandas==2.2.3
-scipy==1.13.1
+numpy==1.26.0
+pandas==2.0.0
+scipy==1.13.0
 scikit-learn==1.5.2
 
 # --- NLP & Text Processing ---
@@ -19,3 +19,9 @@ streamlit==1.37.1
 joblib==1.4.2
 python-dotenv==1.0.1
 requests==2.31.0
+
+# streamlit
+# numpy>=1.26.0
+# pandas>=2.0.0
+# scipy>=1.13.0
+# scikit-learn
