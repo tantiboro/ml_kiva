@@ -1,27 +1,12 @@
-# --- Core Data Science ---
-numpy==1.26.0
-pandas==2.0.0
-scipy==1.13.0
+streamlit
+pandas
+numpy
+joblib
+plotly
+matplotlib
+shap
+opendatasets
 scikit-learn==1.5.2
-
-# --- NLP & Text Processing ---
-spacy==3.7.4
-beautifulsoup4==4.12.3
-wordcloud==1.9.3
-
-# --- Visualization ---
-matplotlib==3.8.0
-seaborn==0.13.2
-plotly==5.18.0
-
-# --- App & Deployment ---
-streamlit==1.37.1
-joblib==1.4.2
-python-dotenv==1.0.1
-requests==2.31.0
-
-# streamlit
-# numpy>=1.26.0
-# pandas>=2.0.0
-# scipy>=1.13.0
-# scikit-learn
+spacy
+# Add the spaCy model if you use deep cleaning
+https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl
