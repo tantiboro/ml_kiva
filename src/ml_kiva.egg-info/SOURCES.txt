@@ -1,6 +1,7 @@
 README.md
 pyproject.toml
 src/ml_kiva/__init__.py
+src/ml_kiva/nlp.py
 src/ml_kiva/preprocess.py
 src/ml_kiva/report.py
 src/ml_kiva/train.py
@@ -9,4 +10,5 @@ src/ml_kiva.egg-info/SOURCES.txt
 src/ml_kiva.egg-info/dependency_links.txt
 src/ml_kiva.egg-info/requires.txt
 src/ml_kiva.egg-info/top_level.txt
+tests/test_pipeline.py
 tests/test_preprocess.py

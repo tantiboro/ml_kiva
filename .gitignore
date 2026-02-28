@@ -1,4 +1,4 @@
-# venvs
+# --- Python & Environments ---
 nlp_venv/
 .venv/
 venv/
@@ -7,7 +7,16 @@ __pycache__/
 .pytest_cache/
 .mypy_cache/
 .DS_Store
-# Add these to your .gitignore
-data/processed/processed_loans_balanced.csv
-models/kiva_pipeline.joblibdata/
-models/kiva_pipeline.joblib
+
+# --- Data (Keep the folder, ignore the files) ---
+# We ignore all files in data/ because they are 100MB+ and downloaded via API
+data/*
+!.gitkeep
+
+# --- Models (Native to each machine) ---
+# This prevents the "Version 1.7.2 vs 1.5.2" conflict
+models/*.joblib
+models/*.png
+
+# --- Streamlit & Secrets ---
+.streamlit/
