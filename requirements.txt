@@ -8,5 +8,6 @@ shap
 opendatasets
 scikit-learn==1.5.2
 spacy
+six
 # Add the spaCy model if you use deep cleaning
 https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl
